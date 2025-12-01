@@ -1,74 +1,81 @@
 
-<?php function getPhotosFromUnsplashAPI($url)
-{
-    // Initialize cURL session
-    $ch = curl_init();
+<?php require "vendor/autoload.php"; ?>
+<?php require "include/functions.php"; ?>
 
-    // Set cURL options
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    // Execute the request
-    $response = curl_exec($ch);
-
-    // Check for errors
-    if ($response === false) {
-        throw new Exception("cURL Error: " . curl_error($ch));
-    }
-
-    // Close cURL session
-    curl_close($ch);
-
-    // Decode and return the response
-    return json_decode($response, true)["results"];
-} ?>
-
+<!doctype html>
 <html>
-    <head></head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Invia una cartolina</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
 
     <body>
-        <?php if ($_SERVER["REQUEST_METHOD"] === "POST") { ?>
-        <form action="sendmail.php" method="post">
-            <?php
-            $name = $_POST["name"];
-            $recipient = $_POST["recipient"];
-            $email = $_POST["email"];
-            $topic = $_POST["topic"];
-            $message = $_POST["message"];
 
-            // Process the form data here
-            echo "Name: $name<br>";
-            echo "Recipient: $recipient<br>";
-            echo "Email: $email<br>";
-            echo "Topic: $topic<br>";
-            echo "Message: $message<br>";
+        <div class="container">
+            <h2>Ecco l'anteprima della tua cartolina</h2>
 
-            // Example usage
-            $url =
-                "https://api.unsplash.com/search/photos?query=dogs&client_id=tk1_9I6QC-kmi65PGr9EGAuLphOjEBr3AII4x2RI4D8"; // Replace with specific endpoint if needed
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <?php
+                        if ($_SERVER["REQUEST_METHOD"] === "POST") { ?>
 
-            try {
-                $photos = getPhotosFromUnsplashAPI($url);
-                // print_r($photos); // Handle the photos as needed
-            } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-            }
-            ?>
+                            <form action="sendmail.php" method="post">
+                                <?php
+                                $name = $_POST["name"] ?? "";
+                                $recipient = $_POST["recipient"] ?? "";
+                                $email = $_POST["email"] ?? "";
+                                $topic = $_POST["topic"] ?? "";
+                                $message = $_POST["message"] ?? "";
 
+                                $clientId = "tk1_9I6QC-kmi65PGr9EGAuLphOjEBr3AII4x2RI4D8";
 
-            <?php echo $photos[0]["urls"]["small"]; ?>
-            <img src="<?php echo $photos[0]["urls"]["small"]; ?>">
+                                try {
+                                    $photos = getPhotosFromUnsplashAPI($clientId);
 
-            <input type="hidden" name="name" value="<?php echo $name; ?>">
-            <input type="hidden" name="recipient" value="<?php echo $recipient; ?>">
-            <input type="hidden" name="email" value="<?php echo $email; ?>">
-            <input type="hidden" name="topic" value="<?php echo $topic; ?>">
-            <input type="hidden" name="message" value="<?php echo $message; ?>">
+                                    $photo = $photos[0]["urls"]["small"];
+                                } catch (Exception $e) {
+                                    echo $e;
+                                    $photo = "noimage.jpg";
+                                }
+                                ?>
 
-            <input type="submit" value="Invia">
-        </form>
-    <?php } else {header("Location: postcard.php");} ?>
+                                <div class="card" style="width: 18rem;">
+                                <img src="<?php echo $photo ?>" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Felice <?php echo $topic ?>, <?php echo $recipient ?></h4>
+                                    <p class="card-text"><?php echo $message ?></p>
+                                    <p class="card-text">un saluto da</p>
+                                    <h4><?php echo $name ?></h4>
+                                </div>
+                                </div>
 
-</body>
+                                <input type="hidden" name="name" value="<?php echo $name; ?>" />
+                                <input type="hidden" name="recipient" value="<?php echo $recipient; ?>" />
+                                <input type="hidden" name="email" value="<?php echo $email; ?>" />
+                                <input type="hidden" name="topic" value="<?php echo $topic; ?>" />
+                                <input type="hidden" name="message" value="<?php echo $message; ?>" />
+                                <input type="hidden" name="photo" value="<?php echo $message; ?>" />
+                            </form>
 
+                            <?php
+                        } else {
+                            header("Location: postcard.php");
+                        }
+                        ?>
+                    </div>
+
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary">Invia la cartolina</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
 </html>
