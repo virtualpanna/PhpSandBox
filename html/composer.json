@@ -1,14 +1,15 @@
 {
-    "name": "david/php-sand-box",
-    "description": "Php Workbench",
-    "type": "project",
-    "require": {
-        "twbs/bootstrap": "^5.3"
-    },
-    "authors": [
-        {
-            "name": "Davide",
-            "email": "davide@d-devel.com"
-        }
-    ]
+  "name": "david/php-sand-box",
+  "description": "Php Workbench",
+  "type": "project",
+  "require": {
+    "twbs/bootstrap": "^5.3",
+    "phpmailer/phpmailer": "^7.0"
+  },
+  "authors": [
+    {
+      "name": "Davide",
+      "email": "davide@d-devel.com"
+    }
+  ]
 }
