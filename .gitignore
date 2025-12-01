@@ -1,0 +1,20 @@
+# Composer files
+/vendor/
+composer.lock
+
+# Zed
+zed/config/
+zed/data/
+
+# IDE files
+/.vscode/
+/.idea/
+/.zed/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+tmp/
