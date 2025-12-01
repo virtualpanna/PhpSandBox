@@ -1,10 +1,6 @@
 # Composer files
-/vendor/
-composer.lock
-
-# Zed
-zed/config/
-zed/data/
+html/vendor/
+html/composer.lock
 
 # IDE files
 /.vscode/

@@ -1,0 +1,14 @@
+{
+    "name": "david/php-sand-box",
+    "description": "Php Workbench",
+    "type": "project",
+    "require": {
+        "twbs/bootstrap": "^5.3"
+    },
+    "authors": [
+        {
+            "name": "Davide",
+            "email": "davide@d-devel.com"
+        }
+    ]
+}
