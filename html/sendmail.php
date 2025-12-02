@@ -21,6 +21,7 @@ use PHPMailer\PHPMailer\Exception;
     <body>
 
         <div class="container">
+            <h1>POSTCARD SERVICE</h1>
 
             <?php
             if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -31,36 +32,41 @@ use PHPMailer\PHPMailer\Exception;
                 $message = $_POST["message"] ?? "";
                 $photo = $_POST["photo"] ?? "";
 
-                $mail = new PHPMailer(true);
+                $phpmailer = new PHPMailer(true);
 
                 try {
-                    $mail->isSendmail(); // Set mailer to use sendmail
+                    $phpmailer->isSMTP();
+                    $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
+                    $phpmailer->SMTPAuth = true;
+                    $phpmailer->Port = 2525;
+                    $phpmailer->Username = "40d888e03bfadc";
+                    $phpmailer->Password = "83656ae6c68a0a";
 
                     // Recipients
-                    $mail->setFrom('postcard@postcard.com', 'Sender Name');
-                    $mail->addAddress($email, $recipient);
+                    $phpmailer->setFrom('postcard@postcard.com', $name);
+                    $phpmailer->addAddress($email, $recipient);
 
                     // Attach image from URL
-                    $tempImage = tempnam(sys_get_temp_dir(), 'image');
+                    $tempImage = tempnam(sys_get_temp_dir(), 'image') . ".jpg";
                     file_put_contents($tempImage, file_get_contents($photo));
 
-                    $mail->addAttachment($tempImage);
+                    $phpmailer->addAttachment($tempImage);
 
                     // Content
-                    $mail->isHTML(true); // Set email format to HTML
-                    $mail->Subject = 'Here is the subject';
-                    $mail->Body    = 'This is the body content of the email.';
+                    $phpmailer->isHTML(true);
+                    $phpmailer->Subject = "Felice $topic,  $recipient!";
+                    $phpmailer->Body    = "$message <br /><br /> Un saluto, $name";
 
-                    $mail->send();
+                    $phpmailer->send();
                     ?>
-                    <div class="text-bg-success p-3">Cartolina inviata con successo</div>
+                    <h2 class="text-bg-success p-3">Cartolina inviata con successo</h2>
                     <?php
                 } catch (Exception $e) {
                     ?>
                     <div class="text-bg-danger p-3">Impossibile inviare la cartolina</div>
                     <?php
 
-                    echo "Mailer Error: {$mail->ErrorInfo}";
+                    echo "Mailer Error: {$phpmailer->ErrorInfo}";
                 }
 
             } else {
