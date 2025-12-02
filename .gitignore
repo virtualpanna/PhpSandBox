@@ -1,6 +1,6 @@
 # Composer files
-html/vendor/
-html/composer.lock
+vendor/
+composer.lock
 
 # IDE files
 /.vscode/
