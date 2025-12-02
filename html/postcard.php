@@ -16,6 +16,8 @@
     <body>
 
         <div class="container">
+            <h1>POSTCARD SERVICE</h1>
+
             <h2>Invia una cartolina via e-mail</h2>
 
             <form action="preview.php" method="post">

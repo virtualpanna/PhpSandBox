@@ -17,15 +17,18 @@
     <body>
 
         <div class="container">
+            <h1>POSTCARD SERVICE</h1>
+
             <h2>Ecco l'anteprima della tua cartolina</h2>
 
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-md-6">
-                        <?php
-                        if ($_SERVER["REQUEST_METHOD"] === "POST") { ?>
+            <form action="sendmail.php" method="post">
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-md-6">
 
-                            <form action="sendmail.php" method="post">
+                            <?php
+                            if ($_SERVER["REQUEST_METHOD"] === "POST") { ?>
+
                                 <?php
                                 $name = $_POST["name"] ?? "";
                                 $recipient = $_POST["recipient"] ?? "";
@@ -43,38 +46,38 @@
                                     echo $e;
                                     $photo = "noimage.jpg";
                                 }
+
                                 ?>
 
                                 <div class="card" style="width: 18rem;">
-                                <img src="<?php echo $photo ?>" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Felice <?php echo $topic ?>, <?php echo $recipient ?></h4>
-                                    <p class="card-text"><?php echo $message ?></p>
-                                    <p class="card-text">un saluto da</p>
-                                    <h4><?php echo $name ?></h4>
+                                    <img src="<?php echo $photo ?>" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Felice <?php echo $topic ?>, <?php echo $recipient ?></h5>
+                                        <p class="card-text"><?php echo $message ?></p>
+                                        <p class="card-text">un saluto da</p>
+                                        <h4><?php echo $name ?></h4>
+                                    </div>
+
+                                    <input type="hidden" name="name" value="<?php echo $name; ?>" />
+                                    <input type="hidden" name="recipient" value="<?php echo $recipient; ?>" />
+                                    <input type="hidden" name="email" value="<?php echo $email; ?>" />
+                                    <input type="hidden" name="topic" value="<?php echo $topic; ?>" />
+                                    <input type="hidden" name="message" value="<?php echo $message; ?>" />
+                                    <input type="hidden" name="photo" value="<?php echo $photo; ?>" />
                                 </div>
-                                </div>
+                                <?php
+                            } else {
+                                header("Location: postcard.php");
+                            }
+                            ?>
+                        </div>
 
-                                <input type="hidden" name="name" value="<?php echo $name; ?>" />
-                                <input type="hidden" name="recipient" value="<?php echo $recipient; ?>" />
-                                <input type="hidden" name="email" value="<?php echo $email; ?>" />
-                                <input type="hidden" name="topic" value="<?php echo $topic; ?>" />
-                                <input type="hidden" name="message" value="<?php echo $message; ?>" />
-                                <input type="hidden" name="photo" value="<?php echo $message; ?>" />
-                            </form>
-
-                            <?php
-                        } else {
-                            header("Location: postcard.php");
-                        }
-                        ?>
-                    </div>
-
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary">Invia la cartolina</button>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary mt-5">Invia la cartolina a <?php echo $email ?></button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
     </body>
