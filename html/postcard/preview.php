@@ -26,36 +26,35 @@
                     <div class="row">
                         <div class="col-md-6">
 
-                            <?php
-                            if ($_SERVER["REQUEST_METHOD"] === "POST") { ?>
+                            <?php if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-                                <?php
                                 $name = $_POST["name"] ?? "";
                                 $recipient = $_POST["recipient"] ?? "";
                                 $email = $_POST["email"] ?? "";
                                 $topic = $_POST["topic"] ?? "";
                                 $message = $_POST["message"] ?? "";
-
-                                $clientId = "tk1_9I6QC-kmi65PGr9EGAuLphOjEBr3AII4x2RI4D8";
-
+                                $clientId =
+                                    "tk1_9I6QC-kmi65PGr9EGAuLphOjEBr3AII4x2RI4D8";
                                 try {
-                                    $photos = getPhotosFromUnsplashAPI($clientId);
-
+                                    $photos = getPhotosFromUnsplashAPI(
+                                        $clientId,
+                                    );
                                     $photo = $photos[0]["urls"]["small"];
                                 } catch (Exception $e) {
                                     echo $e;
                                     $photo = "noimage.jpg";
                                 }
-
                                 ?>
 
                                 <div class="card" style="width: 18rem;">
-                                    <img src="<?php echo $photo ?>" class="card-img-top" alt="...">
+                                    <img src="<?php echo $photo; ?>" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title">Felice <?php echo $topic ?>, <?php echo $recipient ?></h5>
-                                        <p class="card-text"><?php echo $message ?></p>
+                                        <h5 class="card-title">
+                                            Felice <?php echo $topic; ?>, <?php echo $recipient; ?>
+                                        </h5>
+                                        <p class="card-text"><?php echo $message; ?></p>
                                         <p class="card-text">un saluto da</p>
-                                        <h4><?php echo $name ?></h4>
+                                        <h4><?php echo $name; ?></h4>
                                     </div>
 
                                     <input type="hidden" name="name" value="<?php echo $name; ?>" />
@@ -67,13 +66,15 @@
                                 </div>
                                 <?php
                             } else {
-                                header("Location: postcard.php");
-                            }
-                            ?>
+                                header("Location: index.php");
+                            } ?>
+
                         </div>
 
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-primary mt-5">Invia la cartolina a <?php echo $email ?></button>
+                            <button type="submit" class="btn btn-primary mt-5">
+                                Invia la cartolina a <?php echo $email; ?>
+                            </button>
                         </div>
                     </div>
                 </div>
