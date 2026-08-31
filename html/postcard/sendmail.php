@@ -38,8 +38,8 @@ use PHPMailer\PHPMailer\Exception;
                     $phpmailer->Host = "sandbox.smtp.mailtrap.io";
                     $phpmailer->SMTPAuth = true;
                     $phpmailer->Port = 2525;
-                    $phpmailer->Username = "SMTP_USERNAME_REMOVED";
-                    $phpmailer->Password = "SMTP_PASSWORD_REMOVED";
+                    $phpmailer->Username = getenv('SMTP_USERNAME') ?: 'SMTP_USERNAME_REMOVED';
+                    $phpmailer->Password = getenv('SMTP_PASSWORD') ?: 'SMTP_PASSWORD_REMOVED';
 
                     // Recipients
                     $phpmailer->setFrom("postcard@postcard.com", $name);
