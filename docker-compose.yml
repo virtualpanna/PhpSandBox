@@ -24,10 +24,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: DB_ROOT_PASSWORD_REMOVED
-      MYSQL_DATABASE: db_01
-      MYSQL_USER: user
-      MYSQL_PASSWORD: DB_PASSWORD_REMOVED
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-db_01}
+      MYSQL_USER: ${DB_USER:-user}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mariadb-data:/var/lib/mysql # Persist data
 

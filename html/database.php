@@ -1,9 +1,11 @@
 <?php
 
-$host = "mariadb";
-$user = "user";
-$password = "DB_PASSWORD_REMOVED";
-$database = "db_01";
+require __DIR__ . "/postcard/loadenv.php"; // Load .env settings
+
+$host = getenv('DB_HOST') ?: "mariadb";
+$user = getenv('DB_USER') ?: "user";
+$password = getenv('DB_PASSWORD');
+$database = getenv('DB_NAME') ?: "db_01";
 
 try {
     // create new PDO
