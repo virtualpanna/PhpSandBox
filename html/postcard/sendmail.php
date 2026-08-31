@@ -46,18 +46,20 @@ use PHPMailer\PHPMailer\Exception;
                     $phpmailer->setFrom("postcard@postcard.com", $name);
                     $phpmailer->addAddress($email, $recipient);
 
-                    // Attach image from URL
+                    // Fetch image from URL
                     $tempImage = tempnam(sys_get_temp_dir(), "image") . ".jpg";
                     file_put_contents($tempImage, file_get_contents($photo));
-
-                    $phpmailer->addAttachment($tempImage);
 
                     // Content
                     $phpmailer->isHTML(true);
                     $phpmailer->Subject = "Felice $topic,  $recipient!";
-                    $phpmailer->Body = "$message <br /><br /> Un saluto, $name";
+                    $phpmailer->Body = "<img src=\"cid:postcard_image\" alt=\"Postcard\" style=\"max-width:100%;\"><br /><br />$message <br /><br /> Un saluto, $name";
 
-                    $phpmailer->send();?>
+                    // Embed image in the HTML body instead of attaching it
+                    $phpmailer->addEmbeddedImage($tempImage, "postcard_image", basename($photo));
+
+                    $phpmailer->send();
+                    @unlink($tempImage);?>
                     <h2 class="text-bg-success p-3">Cartolina inviata con successo</h2>
                     <?php
                 } catch (Exception $e) {
